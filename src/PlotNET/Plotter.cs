@@ -4,69 +4,73 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
-namespace PlotNET
+namespace Funny.PlotNET
 {
-    public interface IPlotter
+    public interface IStockPlotter
     {
-        Plotter Plot(IEnumerable<float> xValues, IEnumerable<float> yValues, string name, ChartType type = ChartType.Bar, string mode = null);
-        Plotter Plot(IEnumerable<string> labels, IEnumerable<float> yValues, string name, ChartType type = ChartType.Bar, string mode = null);
-        Plotter Plot<T>(IEnumerable<string> labels, IEnumerable<T> yValues, string name, ChartType type = ChartType.Bar, string mode = null, params (string, object)[] @params);
-        Plotter Plot<T>(IEnumerable<T> xValues, IEnumerable<T> yValues, string name, ChartType type = ChartType.Bar, string mode = null, params (string, object)[] @params);
+        IStockPlotter Plot(IEnumerable<Ohlc> values);
+        IStockPlotter Plot(IEnumerable<LineItem> line);
+        IStockPlotter Plot(IEnumerable<Marker> markers);
         string ShowAsHtml(int width, int height);
     }
 
-    public class Plotter : IPlotter
+    public class Ohlc
     {
-        private string _jsUrl = "https://cdn.plot.ly/plotly-latest.min.js";
+        public DateTime Time { get; set; }
+        [JsonProperty("time")] public long time => Time.Ticks;
 
-        private List<Trace> _traces = new List<Trace>();
+        [JsonProperty("open")]
+        public double Open { get; set; }
 
-        public Plotter Plot(IEnumerable<float> xValues, IEnumerable<float> yValues, string name, ChartType type = ChartType.Bar, string mode = null)
-        {
-            _traces.Add(new Trace(xValues.ToArray(), yValues.ToArray(), type)
-            {
-                Name = name,
-                Mode = mode
-            });
-            return this;
-        }
+        [JsonProperty("close")]
+        public double Close { get; set; }
 
-        public Plotter Plot(IEnumerable<string> labels, IEnumerable<float> yValues, string name, ChartType type = ChartType.Bar, string mode = null)
-        {
-            _traces.Add(new Trace(labels.ToArray(), yValues.ToArray(), type)
-            {
-                Name = name,
-                Mode = mode
-            });
-            return this;
-        }
-        public Plotter Plot<T>(IEnumerable<string> labels, IEnumerable<T> yValues, string name, ChartType type = ChartType.Bar, string mode = null, params (string, object)[] @params)
-        {
-            _traces.Add(new Trace(labels.ToArray(), yValues.Cast<float>().ToArray(), type)
-            {
-                Name = name,
-                Mode = mode,
-                Params = @params
-            });
-            return this;
-        }
-        public Plotter Plot<T>(IEnumerable<T> xValues, IEnumerable<T> yValues, string name, ChartType type = ChartType.Bar, string mode = null, params (string, object)[] @params)
-        {
-            _traces.Add(new Trace(xValues.Cast<float>().ToArray(), yValues.Cast<float>().ToArray(), type)
-            {
-                Name = name,
-                Mode = mode,
-                Params = @params
-            });
-            return this;
-        }
-        public Plotter Plot(Trace trace)
-        {
-            _traces.Add(trace);
-            return this;
-        }
+        [JsonProperty("high")]
+        public double High { get; set; }
 
+        [JsonProperty("low")]
+        public double Low { get; set; }
+    }
+
+    public class LineItem
+    {
+        [JsonProperty("time")] public long time => Time.Ticks;
+        public DateTime Time { get; set; }
+
+        [JsonProperty("value")]
+        public double Value { get; set; }
+    }
+
+    public class Marker
+    {
+        [JsonProperty("time")] public long time => Time.Ticks;
+
+        public DateTime Time { get; set; }
+
+        [JsonProperty("text")]
+        public string Text { get; set; }
+
+        [JsonProperty("color")]
+        public string Color { get; set; }
+
+        [JsonProperty("position")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public Type Position { get; set; }
+        public enum Type
+        {
+            aboveBar,
+            belowBar,
+            inBar
+        }
+    }
+
+
+    public class StockStockPlotter : IStockPlotter
+    {
+        private string _jsUrl = "https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js";
+        private string Script { get; set; }
         private string RenderHeader()
         {
             return $"<head> <script src=\"{_jsUrl}\"></script></head>";
@@ -77,62 +81,58 @@ namespace PlotNET
             return $"<div  style=\"border:0px;width:100%;height:100%;\"  id=\"{divClientID}\"></div>";
         }
 
-        private string GetDataByTraces()
-        {
-            return "[" + string.Join(",", _traces.Select(t =>
-            {
-                var xTexts = t.XValues != null ? string.Join(",", t.XValues) : string.Join(",", t.Labels.Select(l => "'" + l + "'"));
-                var nameNode = string.Empty;
-
-                if (!string.IsNullOrEmpty(t.Name))
-                {
-                    nameNode = @",
-                        name: '" + t.Name + "'";
-                }
-
-                var modeNode = string.Empty;
-
-                if (!string.IsNullOrEmpty(t.Mode))
-                {
-                    modeNode = @",
-                        mode: '" + t.Mode + "'";
-                }
-
-
-                return $@"{{
-                    x: [{xTexts}],
-                    y: [{string.Join(",", t.YValues)}],
-                    type: '{t.Type.ToString().ToLower()}'{nameNode}{modeNode},
-                    {string.Join(",\n", t.Params.Select(x => $"{x.name} : {JsonConvert.SerializeObject(x.value)}\t"))}}}";
-            })) + "]";
-        }
-
         private string RenderJS(string divClientID, object sourceData, int width, int height)
         {
-            var data = sourceData != null ? JsonConvert.SerializeObject(sourceData) : GetDataByTraces();
 
             var strWidth = @",
                     width: " + (width - 20) + "," + @"
                     height: " + (height - 20);
-            return @"<script>
-                        var data = " + data + @";
-                        Plotly.newPlot('" + divClientID + @"', data,
-                            {
-                                margin: { t: 5, l: 30, r: 5, b: 30 }" + strWidth + @"
-                            });
-                    </script>";
+            return $@"<script>
+                        const chart = LightweightCharts.createChart(document.getElementById('{divClientID}'));
+                        {Script}
+                   </script>";
+        }
+
+        private int csn = 0;
+        public IStockPlotter Plot(IEnumerable<Ohlc> values)
+        {
+            csn++;
+
+            Script += $@"
+            var candleSeries_{csn} = chart.addCandlestickSeries();
+            candleSeries_{csn}.setData({JsonConvert.SerializeObject(values)});
+            ";
+            return this;
+        }
+
+        public int lsn = 0;
+        public IStockPlotter Plot(IEnumerable<LineItem> line)
+        {
+            lsn++;
+
+            Script += $@"
+            var lineSeries_{lsn} = chart.addLineSeries();
+            lineSeries_{lsn}.setData({JsonConvert.SerializeObject(line)});
+            ";
+            return this;
+        }
+
+        public IStockPlotter Plot(IEnumerable<Marker> markers)
+        {
+            Script += $@"candleSeries_{csn}.setMarkers({JsonConvert.SerializeObject(markers)});";
+            return this;
         }
 
         public string ShowAsHtml(int width, int height)
         {
             var html = GetHtml(width, height, null);
-            _traces.Clear();
+            Script = String.Empty;
             return html;
         }
         public string ShowAsHtml(int width, int height, object data)
         {
             var html = GetHtml(width, height, data);
-            _traces.Clear();
+            Script = String.Empty;
             return html;
         }
         private string GetHtml(int width, int height, object data)

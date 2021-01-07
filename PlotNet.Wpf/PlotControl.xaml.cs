@@ -1,5 +1,6 @@
+using System.Collections.Generic;
 using System.Windows.Controls;
-using PlotNET;
+using Funny.PlotNET;
 
 namespace PlotNet.Wpf
 {
@@ -11,17 +12,28 @@ namespace PlotNet.Wpf
         public PlotControl()
         {
             InitializeComponent();
+            this.Plotter = new StockStockPlotter();
         }
 
-        public async void Plot(IPlotter plotter)
+        private IStockPlotter Plotter { get; set; }
+
+        public void Add(IEnumerable<Ohlc> ohlc) => Plotter.Plot(ohlc);
+
+        public void Add(IEnumerable<Marker> markers) => Plotter.Plot(markers);
+
+        public void Add(IEnumerable<LineItem> line) => Plotter.Plot(line);
+
+        public async void Plot()
         {
             await this.webView.EnsureCoreWebView2Async();
-            this.webView.NavigateToString(plotter.ShowAsHtml((int)ActualWidth, (int)ActualHeight));
+            var html = this.Plotter.ShowAsHtml((int)ActualWidth, (int)ActualHeight);
+            this.webView.NavigateToString(html);
         }
-        public async void PlotData(object data)
+
+        public async void Clear()
         {
             await this.webView.EnsureCoreWebView2Async();
-            this.webView.NavigateToString(new Plotter().ShowAsHtml((int)ActualWidth, (int)ActualHeight, data));
+            this.webView.NavigateToString("");
         }
     }
 }

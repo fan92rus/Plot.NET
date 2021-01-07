@@ -13,11 +13,10 @@
     <PackageProjectUrl>https://github.com/fan92rus/Plot.NET</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fan92rus/Plot.NET</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>1.0.1</Version>
+    <Version>1.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Funny.PlotNet" Version="0.11.0" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.664.37" />
   </ItemGroup>
 

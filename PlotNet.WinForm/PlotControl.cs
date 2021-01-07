@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PlotNET;
+using Funny.PlotNET;
 
 namespace WinformPlot
 {
@@ -18,10 +18,10 @@ namespace WinformPlot
             InitializeComponent();
         }
 
-        public async void Plot(IPlotter plotter)
+        public async void Plot(IStockPlotter stockPlotter)
         {
             await this.webView.EnsureCoreWebView2Async();
-            this.webView.NavigateToString(plotter.ShowAsHtml(this.Width, this.Height));
+            this.webView.NavigateToString(stockPlotter.ShowAsHtml(this.Width, this.Height));
         }
     }
 }

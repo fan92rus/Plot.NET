@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funny.PlotNet.WinForm", "Pl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funny.PlotNet.Wpf", "PlotNet.Wpf\Funny.PlotNet.Wpf.csproj", "{3A270787-BC98-447E-9AC6-B41B9A864A80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChartDemo", "ChartDemo\ChartDemo.csproj", "{3D191342-D1A4-4C42-A64E-619D40868785}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{3A270787-BC98-447E-9AC6-B41B9A864A80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A270787-BC98-447E-9AC6-B41B9A864A80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A270787-BC98-447E-9AC6-B41B9A864A80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D191342-D1A4-4C42-A64E-619D40868785}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D191342-D1A4-4C42-A64E-619D40868785}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D191342-D1A4-4C42-A64E-619D40868785}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D191342-D1A4-4C42-A64E-619D40868785}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

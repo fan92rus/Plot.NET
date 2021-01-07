@@ -1,0 +1,13 @@
+﻿<Window x:Class="ChartDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlotNet;assembly=Funny.PlotNet.Wpf"
+        xmlns:wpf="clr-namespace:PlotNet.Wpf;assembly=Funny.PlotNet.Wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <wpf:PlotControl Name="Plotter" Margin="0,56,0,0" Loaded="Plotter_Loaded"></wpf:PlotControl>
+    </Grid>
+</Window>
