@@ -14,6 +14,7 @@ namespace PlotNET.UnitTest
                 new [] { "giraffes", "orangutans", "monkeys" },
                 new [] { 20f, 14f, 23f },
                 "Test Chart", ChartType.Bar);
+
         }
     }
 }

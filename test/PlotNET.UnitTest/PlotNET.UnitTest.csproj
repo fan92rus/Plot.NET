@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\PlotNET\PlotNET.csproj" />
+    <ProjectReference Include="..\..\src\PlotNET\PlotNet.csproj" />
   </ItemGroup>
 
 </Project>
