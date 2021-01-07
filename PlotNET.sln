@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30330.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlotNet", "src\PlotNET\PlotNet.csproj", "{AF57E136-07E7-4442-BE43-35F8C36A7C02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funny.PlotNet", "src\PlotNET\Funny.PlotNet.csproj", "{AF57E136-07E7-4442-BE43-35F8C36A7C02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlotNet.WinForm", "PlotNet.WinForm\PlotNet.WinForm.csproj", "{A7E2D55C-7B5A-4AB8-9D4C-A7FE587FB722}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funny.PlotNet.WinForm", "PlotNet.WinForm\Funny.PlotNet.WinForm.csproj", "{A7E2D55C-7B5A-4AB8-9D4C-A7FE587FB722}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlotNet.Wpf", "PlotNet.Wpf\PlotNet.Wpf.csproj", "{3A270787-BC98-447E-9AC6-B41B9A864A80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funny.PlotNet.Wpf", "PlotNet.Wpf\Funny.PlotNet.Wpf.csproj", "{3A270787-BC98-447E-9AC6-B41B9A864A80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

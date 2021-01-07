@@ -59,9 +59,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\PlotNET\PlotNet.csproj">
+    <ProjectReference Include="..\src\PlotNET\Funny.PlotNet.csproj">
       <Project>{af57e136-07e7-4442-be43-35f8c36a7c02}</Project>
-      <Name>PlotNet</Name>
+      <Name>Funny.PlotNet</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

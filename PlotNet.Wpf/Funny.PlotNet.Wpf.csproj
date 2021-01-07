@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Daniil Krenev</Authors>
+    <Description>Wpf controll for plot net</Description>
+    <PackageId>Funny.PlotNet.Wpf</PackageId>
+    <Product>Funny.PlotNet.Wpf</Product>
+    <Copyright>Apache-2.0</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/fan92rus/Plot.NET</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/fan92rus/Plot.NET</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Version>1.0.1</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Funny.PlotNet" Version="0.11.0" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.664.37" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\fan92\.nuget\packages\microsoft.web.webview2\1.0.664.37\build\\..\runtimes\win-arm\native\WebView2Loader.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\PlotNET\Funny.PlotNet.csproj" />
+  </ItemGroup>
+</Project>

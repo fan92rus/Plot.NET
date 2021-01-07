@@ -1,17 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using PlotNET;
 
 namespace PlotNet.Wpf
@@ -30,6 +17,11 @@ namespace PlotNet.Wpf
         {
             await this.webView.EnsureCoreWebView2Async();
             this.webView.NavigateToString(plotter.ShowAsHtml((int)ActualWidth, (int)ActualHeight));
+        }
+        public async void PlotData(object data)
+        {
+            await this.webView.EnsureCoreWebView2Async();
+            this.webView.NavigateToString(new Plotter().ShowAsHtml((int)ActualWidth, (int)ActualHeight, data));
         }
     }
 }
